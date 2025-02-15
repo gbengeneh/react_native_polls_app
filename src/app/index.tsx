@@ -34,7 +34,7 @@ const HomeScreen = () => {
     
     return (
         <>
-            <Stack.Screen options={{ title: "Polls" }} />
+            <Stack.Screen options={{ title: "Polls", headerShown: false}} />
             <Header/>
             <FlatList
                 data={polls}
@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        gap: 5,
+        gap: 6,
+        paddingTop: 70,
     },
     pollContainer: {
         backgroundColor: '#fff',
