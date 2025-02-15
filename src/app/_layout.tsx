@@ -6,7 +6,9 @@ import AuthProvider from '../provider/AuthProvider';
  const _layout = () => {
    return (
       <AuthProvider>
-        <Stack/>;
+        <Stack>
+          <Stack.Screen name="(auth)/login" options={{ title: "Login"}}/>
+        </Stack>
       </AuthProvider>
    ) 
  }
