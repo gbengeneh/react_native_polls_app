@@ -3,17 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { Link, Stack, useNavigation, useRouter } from 'expo-router'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { supabase } from '../lib/supabase';
-import { Tables } from '../types/supabase';
+import { Database, Tables } from '../types/supabase';
 import Header from '../components/Header';
-
-
-
+import { poll } from '../types/db';
 // const polls = [{ id: 1 }, { id: 2 }, { id: 3 }]
 const HomeScreen = () => {
     const router = useRouter(); // Use the router hook
-    const navigation = useNavigation();
 
-    const [polls, setPolls] = useState<Tables<'polls'>[]>([]);
+    const [polls, setPolls] = useState<poll[]>([]);
     
     useEffect(() => {
         const fetchPolls = async () => {
@@ -44,7 +41,7 @@ const HomeScreen = () => {
                         pathname: `/polls/[id]`,
                         params: { id: item.id }
                     }} style={styles.pollContainer}>
-                        <Text > {item.id}:   Poll Question Example</Text>
+                        <Text > {item.question}</Text>
                     </Link>
                 )}
             />
