@@ -1,24 +1,56 @@
-import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { Link, Stack } from 'expo-router'
+import { Alert, FlatList, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Link, Stack, useNavigation, useRouter } from 'expo-router'
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { supabase } from '../lib/supabase';
+import { Tables } from '../types/supabase';
+import Header from '../components/Header';
 
-const polls = [{ id: 1 }, { id: 2 }, { id: 3 }]
+
+
+// const polls = [{ id: 1 }, { id: 2 }, { id: 3 }]
 const HomeScreen = () => {
+    const router = useRouter(); // Use the router hook
+    const navigation = useNavigation();
+
+    const [polls, setPolls] = useState<Tables<'polls'>[]>([]);
+    
+    useEffect(() => {
+        const fetchPolls = async () => {
+            console.log("Fetching....")
+    
+            let { data, error } = await supabase.from('polls').select('*');
+            
+            if (error) {
+                Alert.alert('Error Fetching data');
+                return;
+            }
+            
+            setPolls(data || []); // ✅ Ensures we never set null
+        };
+        
+        fetchPolls();
+    }, []);
+    
     return (
         <>
             <Stack.Screen options={{ title: "Polls" }} />
+            <Header/>
             <FlatList
                 data={polls}
                 contentContainerStyle={styles.container}
                 renderItem={({ item }) => (
                     <Link href={{
                         pathname: `/polls/[id]`,
-                        params: { id: item.id}
+                        params: { id: item.id }
                     }} style={styles.pollContainer}>
                         <Text > {item.id}:   Poll Question Example</Text>
                     </Link>
                 )}
             />
+            <TouchableOpacity style={styles.floatingButton} onPress={() => router.push('/polls/newPoll')}>
+                <AntDesign name="plus" size={24} color="white" />
+            </TouchableOpacity>
         </>
     )
 }
@@ -39,6 +71,21 @@ const styles = StyleSheet.create({
     pollTitle: {
         fontWeight: "bold",
         fontSize: 16
-    }
+    },
+    floatingButton: {
+        position: 'absolute',
+        bottom: 70,
+        right: 20,
+        backgroundColor: '#007bff',
+        width: 40,
+        height: 50,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5, // For Android shadow
+        shadowColor: '#000',
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 2 },
+    },
 
 })

@@ -1,0 +1,27 @@
+code to autogenerate supabase types
+
+npx supabase init 
+
+npx supabase link --project-ref xcmuwigvexvdlaapqkfb
+database password : Gbenga12@#12
+
+npx supabase gen types typescript --linked > scr/types/supabase.ts
+
+
+//creating a navigation icon on the Stack.Screen
+const router = useRouter() from expo router
+<Stack.Screen 
+  options={{
+    title:"polls",
+    headerRight: ()=>(
+        <Pressable onPress={() => router.push("/polls/newPolls")}>
+          <AntDesign name="plus" size={20} color="gray"
+        </Pressable>
+    ),
+    headerLeft: ()=>(
+        <Pressable onPress={() => router.push("/login")}>
+          <AntDesign name="user" size={20} color="gray"
+        </Pressable>
+    )
+  }}
+/>

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import Feather from '@expo/vector-icons/Feather';
@@ -12,6 +12,10 @@ const details = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const [selected, setSelected] = useState('');
+
+  const vote = ()=>{
+    console.log('vote:' , selected)
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.question}>{poll.question}</Text>
@@ -25,6 +29,7 @@ const details = () => {
           </Pressable>
         ))}
       </View>
+      <Button onPress={vote} title='Vote' />
     </View>
   )
 }
